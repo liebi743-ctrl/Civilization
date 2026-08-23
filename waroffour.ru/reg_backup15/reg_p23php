@@ -1,0 +1,531 @@
+<?
+if ($ps === 0)
+die();
+
+
+//if ($_COOKIE[clvreg] <> '')
+//die('regged');
+
+require ("../config.php");
+$dblink=@mysql_pconnect(_HOSTNAME,_USERNAME,_DBPASS) or (mySQLconnectERROR($ip,_HOSTNAME) and die("1"));
+mysql_query('SET NAMES cp1251');
+@mysql_select_db(_DBNAME,$dblink) or (mySQLselect_dbERROR($ip,_DBNAME) and die("2")) ;
+
+
+
+$pplog= (int)$_GET['pumpit_login2'];
+$c=mysql_fetch_array(mysql_query("SELECT COUNT(id) FROM pumpit AS cc WHERE login='$pplog'"));
+
+
+
+if ($c[0] >= 1)
+{
+header("Location: http://$_SERVER[HTTP_X_PARTNER]/play_app?app_id=12");
+die();
+}
+
+
+
+$GLOBALS['redir_username']=$_REQUEST['username'];
+
+function hex2bin($h)
+  {
+    if (!is_string($h)) return null;
+    $r='';
+    for ($a=0; $a<strlen($h); $a+=2) { 
+        $r.=chr(hexdec($h{$a}.$h{($a+1)})); 
+     }
+    return $r;
+  } 
+
+
+  
+$e=hex2bin($_GET['pumpit_login']);
+$pumpit_login=trim( mcrypt_ecb (MCRYPT_3DES, "z7gfc8lknZps", $e, MCRYPT_DECRYPT) );    //print "PLOGIN $pumpit_login";
+	$GLOBALS[pumpit_login_finish]=trim( $_SESSION['pumpit_login'] );
+			//print ("pf $GLOBALS[pumpit_login_finish] pl $pumpit_login orig $_GET[pumpit_login]");
+			
+			$p_sid=$_GET['p_sid'];
+			if ($_GET['p_sid'] == '')
+			{
+			//print_r($_REQUEST);
+			$_GET['p_sid']=$_REQUEST['dm_pump_ss'];
+			//print_r($_GET);
+			//die();
+			}
+			$GLOBALS[p_sid_finish]=trim( $_SESSION['p_sid'] );
+			
+$ps = strpos($_SERVER[HTTP_HOST], 'pumpit');
+
+$host = $_SERVER["HTTP_HOST"];
+if(substr($host,0,1)=="o" OR $otest==1){
+	if (isset($_SESSION['auth2']))
+		header('Location: profile.php');
+}
+
+function output($page){
+if ($GLOBALS['off'] == 1)
+$page='';
+return $page;
+}
+
+if ($ps <> 0){
+ob_start("output");
+}
+
+include_once("other_inc/download_widgets.php");
+foreach($_POST as $key => $var){
+$_POST[$key]=trim(htmlspecialchars(addslashes($_POST[$key])));
+}
+if (getenv('HTTP_USER_AGENT')=='http://Anonymouse.org/ (Unix)') exit("Чао..");
+//Error_Reporting(E_ALL & ~E_NOTICE);
+//ini_set('display_errors','1');
+if (getenv('REMOTE_ADDR')=='94.237.248.254' || getenv('REMOTE_ADDR')=='213.87.76.52' || getenv('REMOTE_ADDR')=='94.237.248.254'|| getenv('REMOTE_ADDR')=='94.237.248.254' || getenv('REMOTE_ADDR')=='188.16.114.62') exit("Блок");
+if(isset($_SESSION['auth'])){	header('Location: game.php');exit;}
+//Обработка переменных:
+if (isset($_POST['type'])) $type = $_POST['type'];
+if (isset($_GET['sawform'])) $sawform = $_GET['sawform'];
+if (isset($_GET['username'])) {$username = $_GET['username']; $sawform=1;}
+if (isset($_POST['imya'])) $imya = $_POST['imya'];
+if (isset($_POST['about'])) $about = $_POST['about'];
+if (isset($_POST['mail'])) $mail = $_POST['mail'];
+if (isset(/*$_POST['countryName']*/$_GET['username'])) $countryName = $_GET['username'];//$_POST['countryName'];
+if (isset($countryName)){
+$countryName = trim($countryName);
+$countryName = ereg_replace(" +"," ",$countryName);
+}
+
+/*if (isset($sawform)){
+$code = (eregi("^[0-9]+$",$_POST['getcode']))? $_POST['getcode']:"++";
+$code_confirm = trim($_POST['code_confirm']);
+$code = hexdec(md5(md5($code.$_SERVER['REMOTE_ADDR'])));
+$code = substr($code,3,6);
+// партнеры
+if(isset($_SERVER ["HTTP_X_FORWARDED_FOR"]) && !empty($_SERVER["HTTP_X_FORWARDED_FOR"])){ $ip=$_SERVER["HTTP_X_FORWARDED_FOR"];}
+if(isset($_SERVER ["HTTP_X_FWD_IP_ADDR"]) && !empty($_SERVER["HTTP_X_FWD_IP_ADDR"])){ $ip=$_SERVER["HTTP_X_FWD_IP_ADDR"];}
+if(isset($_SERVER["HTTP_VIA"]) && !empty($_SERVER["HTTP_VIA"])){ $ip=$_SERVER["HTTP_VIA"];}
+if(isset($_SERVER ["HTTP_PROXY_CONNECTION"]) && !empty ($_SERVER["HTTP_PROXY_CON NECTION"])){ $ip=$_SERVER["HTTP_PROXY_CON NECTION"];}
+if(getenv("REMOTE_ADDR")){ $ip = getenv("REMOTE_ADDR");}
+
+$ip=htmlspecialchars(stripslashes($ip));
+if(!empty($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])){$brow=$_SERVER['HTTP_X_OPERAMINI_PHONE_UA'];}elseif(!empty($_SERVER['HTTP_X_OPERAMINI_PHONE'])){
+$brow=$_SERVER['HTTP_X_OPERAMINI_PHONE'];}else{
+$brow=htmlspecialchars(stripslashes(getenv('HTTP_USER_AGENT')));}
+$brow=str_replace('|', '', $brow);
+
+if($_SESSION['site']!=''){
+$partner=str_replace('.', '', $_SESSION['site']);
+
+$fp=fopen('data/partner/'.$partner.'_reg.dat',"a+");
+flock($fp,LOCK_EX);
+fputs($fp,$username."|".time()."|nomail|".$brow."|".$ip."|\r\n");
+fflush($fp);
+flock($fp,LOCK_UN);
+fclose($fp);
+chmod ('data/partner/'.$partner.'_reg.dat.dat', 0666);
+}
+}*/
+
+//Список ip адресов, с которых допустима регистрация
+$dopusk = array('82.204.177.34');
+
+//Запрет входа с компа
+$accept = @getenv("HTTP_Accept");
+if (strpos($accept,'x-xbitmap')!==FALSE) $komp = TRUE; else $komp=FALSE;
+if (in_array($_SERVER['REMOTE_ADDR'],$dopusk))$komp = FALSE;
+$komp=false;
+
+function check($str,$hsc=1){   //Проверка на спецсимволы
+$str=strtr($str,array(chr("0")=>"",chr("1")=>"",chr("2")=>"",chr("3")=>"",chr("4")=>"",chr("5")=>"",chr("6")=>"",chr("7")=>"",chr("8")=>"",chr("9")=>"",chr("10")=>"",chr("11")=>"",chr("12")=>"",chr("13")=>"",chr("14")=>"",chr("15")=>"",chr("16")=>"",chr("17")=>"",chr("18")=>"",chr("19")=>"",chr("20")=>"",chr("21")=>"",chr("22")=>"",chr("23")=>"",chr("24")=>"",chr("25")=>"",chr("26")=>"",chr("27")=>"",chr("28")=>"",chr("29")=>"",chr("30")=>"",chr("31")=>"","Р?"=>"И","вЂ¦"=>" ","вЂ©-"=>" ","вЂњ"=>" ","вЂќ"=>" ","вЂ©"=>" ","вЂ“"=>"-","\n"=>" ","$"=>"$$"));
+if($hsc==1)$str = HtmlSpecialChars($str);
+$str = ereg_replace(" +"," ",$str);
+//$str = ereg_replace("$","$$",$str);
+$str = trim($str);
+return $str;
+}
+//==============================================================================
+//подключаем скрипты
+
+define('IN_CLV',true);
+include_once("func/functions_clv.php");
+mem_connect();
+
+//@include_once("other_inc/header.php");
+
+if (isset($sawform)){
+$code = (eregi("^[0-9]+$",$_POST['getcode']))? $_POST['getcode']:"++";
+$code_confirm = trim($_POST['code_confirm']);
+$code = hexdec(md5(md5($code.$_SERVER['REMOTE_ADDR'])));
+$code = substr($code,3,6);
+// партнеры
+if(isset($_SERVER ["HTTP_X_FORWARDED_FOR"]) && !empty($_SERVER["HTTP_X_FORWARDED_FOR"])){ $ip=$_SERVER["HTTP_X_FORWARDED_FOR"];}
+if(isset($_SERVER ["HTTP_X_FWD_IP_ADDR"]) && !empty($_SERVER["HTTP_X_FWD_IP_ADDR"])){ $ip=$_SERVER["HTTP_X_FWD_IP_ADDR"];}
+if(isset($_SERVER["HTTP_VIA"]) && !empty($_SERVER["HTTP_VIA"])){ $ip=$_SERVER["HTTP_VIA"];}
+if(isset($_SERVER ["HTTP_PROXY_CONNECTION"]) && !empty ($_SERVER["HTTP_PROXY_CON NECTION"])){ $ip=$_SERVER["HTTP_PROXY_CON NECTION"];}
+if(getenv("REMOTE_ADDR")){ $ip = getenv("REMOTE_ADDR");}
+
+$ip=htmlspecialchars(stripslashes($ip));
+if(!empty($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])){$brow=$_SERVER['HTTP_X_OPERAMINI_PHONE_UA'];}elseif(!empty($_SERVER['HTTP_X_OPERAMINI_PHONE'])){
+$brow=$_SERVER['HTTP_X_OPERAMINI_PHONE'];}else{
+$brow=htmlspecialchars(stripslashes(getenv('HTTP_USER_AGENT')));}
+$brow=str_replace('|', '', $brow);
+
+if($_SESSION['site']!=''){
+$partner=str_replace('.', '', $_SESSION['site']);
+
+$fp=fopen('data/partner/'.$partner.'_reg.dat',"a+");
+flock($fp,LOCK_EX);
+fputs($fp,$username."|".time()."|nomail|".$brow."|".$ip."|\r\n");
+fflush($fp);
+flock($fp,LOCK_UN);
+fclose($fp);
+chmod ('data/partner/'.$partner.'_reg.dat.dat', 0666);
+}
+}
+ //Дизайн строки типа "Регистрация":
+ //$topline="<b>Регистрация</b><br/><br/>\r\n";
+
+if ($komp==TRUE){
+//хедер страницы:
+include_once("other_inc/header.php");
+printrus("Извините, с компьютера регистрироваться нельзя");
+//футер страницы:
+include_once("other_inc/footer.php");
+exit;
+   }
+
+ $code1 = rand(1000,2000).rand(2000,3000);
+
+
+
+ //регистрационная форма(wml):
+ /*$regform=
+"<form name=\"\" action=\"reg.php?sawform\" method=\"get\">
+Логин(В \"логине\" разрешено использовать только знаки латинского алфавита и цифры кроме 0):<br/>
+<input type='text' value='".iconv('utf-8', 'cp1251',$username)."' name='username'/><br/>
+E-mail:<br/>
+<input type='text' value='".iconv('utf-8', 'cp1251',$mail)."' name='mail'/><br/>
+Название страны(в \"названии страны\" разрешены знаки латинского либо русского алфавита, цифры кроме 0, символы: !, - и пробел. Запрещено использовать одновременно русские и латинские знаки.):<br/>
+<input type='text' value='".iconv('utf-8', 'cp1251', $countryName)."' name='countryName'/><br/>
+Ваше имя:<br/>
+<input title='name' value='' name='imya' maxlength=\"50\" /><br/>
+О себе:<br/>
+<input title='about' value='' name='about' maxlength=\"200\"/><br/>
+Введите код безопасности:<br/>
+<img src='img.php?code=".$code1."&amp;type=$type' alt='code'/><br />
+<input type='text' value='' name='code_confirm'/><br/>
+<input name=\"getcode\" type=\"hidden\" value=\"$code1\"/>
+Не видите кода? Попробуйте формат <a href=\"reg.php?type=jpeg\">jpeg</a> или <a href=\"reg.php?type=gif\">gif</a><br/>
+<input type=\"submit\" value=\"OK\"/>
+</form><br/>
+"; */
+$query="select count(*) as num from uzers";
+ $r = mysql_query($query);
+ $a = mysql_fetch_array($r);
+ $num2 = $a['num'];
+
+ $_SESSION[pumpit_login]=$pumpit_login;
+ $_SESSION[p_sid]=$p_sid;
+ 
+$regform=
+"<div class=\"a\"><img src=\"/img/pic/logo2.png\" alt=\"\" /><br/>
+<div class=\"dot\"><b>Великая Империя</b> - бесплатная онлайн игра<br/>
+<span style=\"font-family:Georgia\">Онлайн: <b>".online("c")."</b>, всего регистраций: <b>".$num2."</b></span><br/>
+</div><br/>
+<form name=\"\" action=\"reg_p.php?sawform=1&amp;sid=$_GET[sid]\" method=\"get\">
+<div style=\"text-align : left; \">
+<span class=\"green\">Логин (название страны)</span><br/>
+<span class=\"low\"><small>Разрешены латинские или русские знаки, цифры кроме 0, символы: !, - и пробел.</small></span></div>
+<input class=\"text\" type='text' value='".iconv('utf-8', 'cp1251',htmlspecialchars($username))."' name='username'/>
+<input class=\"text\" type='hidden' value='".htmlspecialchars($_GET['p_sid'])."' name='p_sid'/>
+<input class=\"button_medium\" type=\"submit\" value=\"Начать игру\"/>
+</form>
+<small>Я согласен с</small> <a href=\"rules.php\"><small>правилами</small></a> <small>игры</small><br/></div>
+";
+// Разрешены знаки латинского или русского алфавита, цифры кроме 0, символы: !, - и пробел. Запрещены одновременно русские и латинские знаки.
+
+//==============================================================================
+//рабочая часть скрипта=========================================================
+
+//******************************************************************************
+//если пользователь не смотрел форму:*******************************************
+ if(!isset($sawform)){
+  //хедер страницы:
+include_once("other_inc/header.php");
+
+  printrus ($topline);
+  //printrus ("Перед прочтением НАСТОЯТЕЛЬНО РЕКОМЕНДУЕТСЯ ознакомиться с <a href=\"rules.php\">правилами</a> игры<br/>\n");
+  printrus ($regform);
+
+//******************************************************************************
+//А если пользователь смотрел форму, то:****************************************
+ }else{
+  //генерируем пароль:
+  $password=rand(1000000,9999999);
+//сообщение для отправки на мыло)
+  $message=
+"Поздравляем!
+Вы успешно зарегистрировались в игре Империя!
+Для входа используйте:
+-------
+имя -- $username
+пароль -- $password
+-------
+Удачной Вам игры!";
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//Проверяем всякие переменные на предмет дураковства::::::::::::::::::::::::::::
+ /* if ($code!=$code_confirm){
+  //хедер страницы:
+  include_once("other_inc/header.php");
+  printrus ($topline);
+  printrus ("<u>Неверный код безопасности!</u><br/>\r\n");
+  printrus ($regform);
+  }else*/if(empty($username) || empty($countryName)){
+   //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Все поля обязательны для заполнения!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(!cnameisok($username)){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Имя пользователя содержит недопустимые символы!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(!VARLEN_isOK($username)){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Имя, которое вы использовали слишком длинное!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(ThereIsSuchUserAlready(iconv('utf-8','cp1251',$username))){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Пользователь с таким именем уже зарегистрирован в игре!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(!VARLEN_isOK($mail)){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Длина Email адреса слишком большая! Пожалуйста испольсуйте другой адрес.</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(!cnameisok($countryName)){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Название страны содержит недопустимые символы!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(!VARLEN_isOK(iconv('utf-8','cp1251',$countryName))){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Название страны слишком длинное!</u><br/>\r\n");
+   printrus ($regform);
+  }elseif(ThereIsSuchCountryAlready(iconv('utf-8','cp1251',$countryName))){
+  //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+   printrus ("<u>Страна с таким названием уже зарегистрирована в игре (либо есть в сохранениях)!</u><br/>\r\n");
+   printrus ($regform);
+  }else{
+
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//Если все прикольно, то регаем чувака (мыло уже отправлено)::::::::::::::::::::
+
+ //Антиклонизм
+$ip = getIp2();
+$soft = getenv("HTTP_USER_AGENT");
+
+ //По куке
+ if (isset($_COOKIE['clvreg	'])){
+    if (base64_decode($_COOKIE['clvreg'])>=time()){
+//хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+  $timeleft = base64_decode($_COOKIE['clvreg'])-time();
+  printrus("Извините, с Вашего телефона регистрация невозможна! Подождите $timeleft секунд<br/>\n");
+
+  //Заносим ip+soft в "черный список"
+  @$open=fopen("mod/blacklist.dat","a+");
+@flock ($open,LOCK_EX);
+$str = "ip:$ip, soft:$soft\n\r";
+@fwrite ($open,$str);
+@fflush($open);
+@flock ($open,LOCK_UN);
+@fclose($open);
+
+  printrus ("<a href='index.php'>Назад</a><br/>\r\n");
+//футер страницы:
+include_once("other_inc/footer.php");
+exit;
+            }else setcookie('clvreg',base64_encode((time()+600)),time()+3600);
+    }else setcookie('clvreg',base64_encode((time()+600)),time()+3600);
+   //хедер страницы:
+include_once("other_inc/header.php");
+  printrus ($topline);
+
+  //По ip+soft
+$ip = addslashes($ip);
+$soft = addslashes($soft);
+// off; ip='$ip'
+$r = mysql_query("SELECT * FROM `regs` WHERE ip='1 $ip' and soft = '$soft' LIMIT 1");
+$a = mysql_fetch_array($r);
+
+if ($a!==FALSE && $a['time']>=time()){
+$timeleft = $a['time']-time();
+printrus("Извините, с Вашего телефона регистрация невозможна! Подождите $timeleft секунд<br/>\n");
+printrus ("<a href='index.php'>Назад</a><br/>\r\n");
+//футер страницы:
+include_once("other_inc/footer.php");
+exit;
+   }else {
+     $newtime = time()+300;
+     if ($a===FALSE) mysql_query("INSERT INTO `regs` SET ip='$ip', soft='$soft', time = '$newtime'");
+     else mysql_query("UPDATE `regs` SET time='$newtime' WHERE ip = '$ip' and soft = '$soft' LIMIT 1");
+     }
+
+   //Регаем...
+   // check mail ru
+//global $mail_ru_mode;
+//if($mail_ru_mode == true)
+//{
+$pasa = $password;
+    if(isset($_SESSION['mr_uid']))
+    {
+ //Определяем будущий ID
+ $query = "SELECT max(userID)as maxx FROM uzers";
+ $result = mysql_query($query);
+ $a = mysql_fetch_array($result);
+ $userID = $a['maxx']+1;
+	
+        // check dependence exists
+        $r = mysql_query("select user_name,user_pass from mr_reg where mr_uid='".$_SESSION['mr_uid']."'");
+        if($err && mysql_error()!='')    {        echo "_db_user_exists: ".mysql_error();    }
+        if($r!=false)
+        {
+            if(mysql_num_rows($r)==0)
+            {
+                if($username!='')
+				{$ID = $userID;
+				$GLOBALS['userid']=$ID;
+				$loga = $username;
+				$loga=iconv('utf-8','cp1251',$loga);
+                    $r = mysql_query("insert into mr_reg (user_name,user_pass,mr_uid,user_id) values ('".$loga."','".$pasa."','".$_SESSION['mr_uid']."','".$ID."') ");
+                    // echo mysql_error();
+                }
+            }            
+            else
+            {
+                $r_l = mysql_fetch_array($r);                
+                $mr_udata = $r_l['user_name'];
+                global $loga;
+                $loga=$mr_udata[0];
+                $pasa=$mr_udata[1];
+            }             
+        }        
+    }
+    //exit;
+    if(isset($_SESSION['o_uid']))
+    {
+ //Определяем будущий ID
+ $query = "SELECT max(userID)as maxx FROM uzers";
+ $result = mysql_query($query);
+ $a = mysql_fetch_array($result);
+ $userID = $a['maxx']+1;
+	
+        // check dependence exists
+        $r = mysql_query("select user_name,user_pass from o_reg where o_uid='".$_SESSION['o_uid']."'");
+        if($err && mysql_error()!='')    {        echo "_db_user_exists: ".mysql_error();    }
+        if($r!=false)
+        {
+            if(mysql_num_rows($r)==0)
+            {
+                if($username!='')
+				{$ID = $userID;
+				$loga = $username;
+				$loga=iconv('utf-8','cp1251',$loga);
+                    $r = mysql_query("insert into o_reg (user_name,user_pass,o_uid,user_id) values ('".$loga."','".$pasa."','".$_SESSION['o_uid']."','".$ID."') ");
+                    // echo mysql_error();
+                }
+            }            
+            else
+            {
+                $r_l = mysql_fetch_array($r);                
+                $mr_udata = $r_l['user_name'];
+                global $loga;
+                $loga=$mr_udata[0];
+                $pasa=$mr_udata[1];
+            }             
+        }        
+    }
+    //exit;
+//}
+//
+   if (strpos(strtolower($about),'lastb')!==FALSE)$about='';
+   $imya = check(iconv('utf-8','cp1251',$imya));
+   $about = check(iconv('utf-8','cp1251',$about));
+   addUSERtoBASE($username,$mail,$password,$countryName,$imya,$about);
+
+    if (!EMAIL_isBAD($mail))$mail='';
+    else {
+
+ $text = convert_cyr_string("Поздравляем Вы успешно зарегистрированы в онлайн игре Империя!\n".'Ник: '.$username." \n".'Пароль: '.$password." \n-------\n".'Это письмо сгенерировано автоматически, и отвечать на него нет смысла.', 'w','k');
+ $subject = encodeHeader(convert_cyr_string('ИМПЕРИЯ. Ваш пароль', 'w','k'));
+ $from = encodeHeader(convert_cyr_string('Империя imperia.mobi', 'w','k').' <dv@v425.ru>');
+ $adds = "From: $from\r\n";
+ $adds .= "X-Sender: imperia.mobi\r\n";
+ $adds .= "Content-Type: text/plain; charset=koi8-r";
+ mail($mail,$subject,$text,$adds);
+   }
+   $username=iconv('utf-8','cp1251',$username);
+   $rok=1;
+   //И говорим об успехе:
+   printrus ("<span class=\"green\">Вы успешно зарегистрировались!</span><br/><br/>\r\n");
+   
+  // print $pumpit_login;
+//die($GLOBALS[pumpit_login_finish]);
+   
+   $pumpit_data=mysql_fetch_array(mysql_query("SELECT * FROM pumpit_data WHERE login='$GLOBALS[pumpit_login_finish]'"));
+
+   
+   mysql_query("DELETE FROM pumpit WHERE login='$GLOBALS[pumpit_login_finish]'");
+   
+   $lg=explode('#', $GLOBALS[pumpit_login_finish]);
+ //  print_r($lg);
+
+   print "INSERT INTO pumpit SET login='$lg[0]', login2=$lg[1], p_sid='$GLOBALS[p_sid_finish]', username='$GLOBALS[redir_username]', password='$password', header='$pumpit_data[header]', footer='$pumpit_data[footer]'";
+  //die();
+
+  mysql_query("INSERT INTO pumpit SET login='$lg[0]', login2=$lg[1], p_sid='$GLOBALS[p_sid_finish]', username='$GLOBALS[redir_username]', password='$password', header='$pumpit_data[header]', footer='$pumpit_data[footer]'");
+   $_SESSION['pumpit_login']=$lg[0];
+   $_SESSION['pumpit_login2']=$lg[1];
+   
+   $_SESSION['p_sid']=$GLOBALS[p_sid_finish];
+   $_SESSION['pumpit_header']=$pumpit_data[header];
+   $_SESSION['pumpit_footer']=$pumpit_data[footer];
+   
+   if ($ps <> 0){
+   $GLOBALS['off'] = 1;
+//   $username = urlencode(iconv ('windows-1251', 'UTF-8', $username));
+//   header("Location: http://$_SERVER[HTTP_HOST]/enter.php?sawform=1&sid=$_GET[sid]&username=$username&password=$password");
+   header("Location: http://imperia.pumpit.mmska.ru/enter.php?sawform=1&p_sid=$_GET[p_sid]&username=$GLOBALS[redir_username]&password=$password");
+   }
+   printrus ("<b>Ваш логин:</b><br/>$username<br/> <b>Ваш пароль:</b><br/> $password<br/><br/>Установите почтовый ящик для $username. Это позволит сохранить страну и восстановить пароль при его утере или же подтвердить владельца в случае необходимости!<br/>\r\n");
+   //authorize($username,$password);
+   printrus
+("<form name=\"\" action=\"enter.php?sawform=1&amp;sid=$_GET[sid]\" method=\"get\">
+  <input name=\"username\" type=\"hidden\" value=\"$username\"/>
+  <input name=\"password\" type=\"hidden\" value=\"$password\"/>
+  <input type=\"submit\" value=\"Играть\"/>
+</form><br/>
+");
+  }
+ }
+printrus ("<ul class=\"navs\"><li><a href='index.php'><img src=\"/img/ico/point.png\" class=\"menu\" alt=\"\" />Главная</a></li></ul>");
+//printrus ("<a href='index.php'>Назад</a><br/>\r\n");
+//футер страницы:
+include_once("other_inc/footer.php");
+if ($ps <> 0)
+ob_end_flush();
+?>

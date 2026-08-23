@@ -1,0 +1,45 @@
+@charset "utf-8";
+.head
+{
+background:#036;
+border-bottom:1px solid #630;
+color:white;
+margin-bottom:1px;
+padding:5px;
+}
+.head-a,.head-a:visited
+{
+color:#fff;
+}
+.footer a
+{
+color: #0066CC;
+}
+.footer
+{
+background:#f2f2f2 url("http://img.imgsmail.ru/r/mymobile/g.gif") left top repeat-x;
+border-top:1px solid #999; 
+font-size:0.75em;
+margin-top:5px;
+padding:9px 5px 5px;
+}
+.footer,.head 
+{
+font:100% arial,sans-serif;
+}
+.footer * 
+{
+margin:0;
+}
+.footer 
+{
+font-size:0.75em;
+}
+.footer p{
+margin: 0 0 5px;
+}
+.footer img
+{
+border:0 none;
+vertical-align:middle;
+}

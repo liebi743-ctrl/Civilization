@@ -1,0 +1,6 @@
+<Limit GET POST>
+	require valid-user
+</Limit>
+AuthType Basic
+AuthName "webstat"
+AuthUserFile /var/www/waroffour/data/etc/waroffour.ru.stat.passwd

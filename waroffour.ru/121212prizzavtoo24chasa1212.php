@@ -1,0 +1,125 @@
+<?php
+
+
+set_time_limit(0);
+error_reporting(0);
+define('IN_CLV',true);
+//==============================================================================
+//подключаем скрипты
+include_once("func/functions_clv.php");
+mem_connect();
+
+//==============================================================================
+//Рабочая часть скрипта=========================================================
+include_once("other_inc/header.php");
+
+
+//Обнуление потраченного за сутки золота
+mysql_query("UPDATE `uzers` SET spent=0");
+
+
+$query="SELECT * FROM `countries` LEFT JOIN `messages` ON countries.countryID=messages.countryID and messages.`from` = 'loose' WHERE messages.countryID IS NULL";
+ $result=@MYSQL_QUERY($query) or (mySQLqueryERROR($query) and die(""));
+
+ while(($a=mysql_fetch_array($result))!==FALSE){
+  $countryID=$a[0];
+  $kk = mysql_query("SELECT voting FROM `uzers` WHERE countryID = '$countryID' LIMIT 1");
+  $gg = mysql_fetch_array($kk);
+  $voting = $gg['voting'];
+
+
+
+
+$voting=rand(1,5);
+//Приз
+if (($voting==1 || $voting==2 || $voting==3 || $voting==4 || $voting==5) && ($a['reggedTime']+60*60*24)>time()){
+   $rnd = rand(2000,2500);
+   $rnd2 = rand(100,150);
+   $rnd3 = rand(8000,10000);
+   $rnd4 = rand(100,200);
+   sendMessage($countryID,"fullMessage","Здравствуй уважаемый игрок,  онлайн игра Война Четырех рада видеть вас у нас в игре и дарит вам подарок :) +$rnd железа, +$rnd2 учёных, +1 алмаз, +$rnd4 нефти, +$rnd3 денег,  +$rnd камня.");
+   printrus("В гос-ве ".$a['countryName']." +$rnd железа, +$rnd2 учёных, +1 алмаз, +$rnd4 нефти, +$rnd3 денег,  +$rnd камня.\n");
+   mysql_query("UPDATE countries SET scientists=scientists+$rnd2, iron=iron+$rnd, stone=stone+$rnd, oil=oil+$rnd4, money=money+$rnd3 WHERE countryID='$countryID' LIMIT 1");
+   mysql_query("UPDATE uzers SET credits=credits+1 WHERE countryID='$countryID' LIMIT 1");
+   $key=_PREFIKS.':id'.$countryID;
+         if (($mem=$memcache->get($key))!==FALSE){
+            $mem['iron'] = $mem['iron'] + $rnd;
+            $mem['stone'] = $mem['stone'] + $rnd;
+            $mem['scientists'] = $mem['scientists'] + $rnd2;
+            $mem['money'] = $mem['money'] + $rnd3;
+            $mem['oil'] = $mem['oil'] + $rnd4;
+            $memcache->set($key,$mem,false,86400);
+            }
+   }
+
+ /*
+//Случайные открытия
+$all = countAllLand($countryID,TRUE);
+
+$rnd = rand(1,100);   //Стальная арматура
+if ($rnd==25 && !otkr_exists($countryID,'STLI')&& $all<=15000){
+   sendMessage($countryID,"fullMessage","Ваши ученые, проторчав в секретных лабораториях целый год наконец-то сделали новое открытие - <u>стальная арматура</u>!!!");
+   printrus("В гос-ве ".$a['countryName']." изобрели стальную арматуру!\n");
+   mysql_query("INSERT INTO `otkrytiya` SET countryID='$countryID', otkr='STLI'");
+   $key=_PREFIKS.':otkrytiya'.$countryID;
+   if (($mem=$memcache->get($key))!==FALSE){
+      $newo = array("countryID"=>$countryID, "otkr"=>'STLI');
+      array_push($mem,$newo);
+      $memcache->set($key,$mem,false,86400);
+      }
+
+   }
+
+$rnd = rand(1,100);  //Переплавка железа
+if ($rnd==25 && !otkr_exists($countryID,'PERJ')&& $all<=10000){
+   sendMessage($countryID,"fullMessage","Ваши ученые, проторчав в секретных лабораториях целый год наконец-то сделали новое открытие - <u>переплавка железа</u>!!!");
+   printrus("В гос-ве ".$a['countryName']." изобрели переплавку железа!\n");
+   mysql_query("INSERT INTO `otkrytiya` SET countryID='$countryID', otkr='PERJ'");
+   $key=_PREFIKS.':otkrytiya'.$countryID;
+   if (($mem=$memcache->get($key))!==FALSE){
+      $newo = array("countryID"=>$countryID, "otkr"=>'PERJ');
+      array_push($mem,$newo);
+      $memcache->set($key,$mem,false,86400);
+      }
+
+   }
+
+$rnd = rand(1,100);  //Элексир долголетия
+if ($rnd==25 && !otkr_exists($countryID,'DOLG')&& $all<=10000){
+   sendMessage($countryID,"fullMessage","Ваши ученые, проторчав в секретных лабораториях целый год наконец-то сделали новое открытие - <u>элексир долголетия</u>!!!");
+   printrus("В гос-ве ".$a['countryName']." изобрели элексир долголетия!\n");
+   mysql_query("INSERT INTO `otkrytiya` SET countryID='$countryID', otkr='DOLG'");
+   $key=_PREFIKS.':otkrytiya'.$countryID;
+   if (($mem=$memcache->get($key))!==FALSE){
+      $newo = array("countryID"=>$countryID, "otkr"=>'DOLG');
+      array_push($mem,$newo);
+      $memcache->set($key,$mem,false,86400);
+      }
+
+   }
+
+$rnd = rand(1,100);  //Берсерк
+if ($rnd==25 && !otkr_exists($countryID,'BERS') && $all<=10000){
+   sendMessage($countryID,"fullMessage","Ваши ученые, проторчав в секретных лабораториях целый год наконец-то сделали новое открытие - <u>БЕРСЕРК</u>!!!");
+   printrus("В гос-ве ".$a['countryName']." изобрели берсерк!\n");
+   mysql_query("INSERT INTO `otkrytiya` SET countryID='$countryID', otkr='BERS'");
+   $key=_PREFIKS.':otkrytiya'.$countryID;
+   if (($mem=$memcache->get($key))!==FALSE){
+      $newo = array("countryID"=>$countryID, "otkr"=>'BERS');
+      array_push($mem,$newo);
+      $memcache->set($key,$mem,false,86400);
+      }
+
+   }
+*/
+
+}
+
+
+
+
+//echo "done!";
+include_once("other_inc/footer.php");
+
+?>
+

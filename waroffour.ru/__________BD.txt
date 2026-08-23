@@ -1,0 +1,1776 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.8.1deb5+lenny9
+-- http://www.phpmyadmin.net
+--
+-- Хост: localhost
+-- Время создания: Дек 14 2015 г., 11:56
+-- Версия сервера: 5.0.51
+-- Версия PHP: 5.2.6-1+lenny13
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- База данных: `cv`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `artefacts`
+--
+
+CREATE TABLE IF NOT EXISTS `artefacts` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(40) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `researched` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1363 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `artefakt`
+--
+
+CREATE TABLE IF NOT EXISTS `artefakt` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(50) NOT NULL default '',
+  `artID` int(11) NOT NULL default '0' COMMENT 'номер артефакта',
+  `artName` varchar(100) NOT NULL default '',
+  `developed` tinyint(1) NOT NULL default '0' COMMENT 'Изучен ли артефакт или нет',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `artefakt_save`
+--
+
+CREATE TABLE IF NOT EXISTS `artefakt_save` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(50) NOT NULL default '',
+  `artID` int(11) NOT NULL default '0' COMMENT 'номер артефакта',
+  `artName` varchar(100) NOT NULL default '',
+  `developed` tinyint(1) NOT NULL default '0' COMMENT 'Изучен ли артефакт или нет',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `blacklist`
+--
+
+CREATE TABLE IF NOT EXISTS `blacklist` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(100) character set cp1251 NOT NULL,
+  `countryName` varchar(100) character set cp1251 NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=993431 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `blacklist_all`
+--
+
+CREATE TABLE IF NOT EXISTS `blacklist_all` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(100) character set cp1251 NOT NULL,
+  `countryName` varchar(100) character set cp1251 NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=993431 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `blocks`
+--
+
+CREATE TABLE IF NOT EXISTS `blocks` (
+  `cid` varchar(100) NOT NULL default '',
+  `who` varchar(100) NOT NULL default '',
+  `why` text NOT NULL,
+  `tm` int(11) NOT NULL default '0',
+  KEY `cid` (`cid`,`tm`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `bots`
+--
+
+CREATE TABLE IF NOT EXISTS `bots` (
+  `number` int(5) NOT NULL auto_increment,
+  `vopros` text NOT NULL,
+  `answer` varchar(100) NOT NULL default '',
+  `tran` varchar(60) NOT NULL default '',
+  KEY `number` (`number`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=170145 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `buildings`
+--
+
+CREATE TABLE IF NOT EXISTS `buildings` (
+  `countryID` varchar(100) NOT NULL default '',
+  `building` varchar(50) NOT NULL default '',
+  `guard` int(11) NOT NULL default '0',
+  `guard_2` int(11) NOT NULL default '0',
+  `guard_3` int(11) NOT NULL default '0',
+  `guard_4` int(10) NOT NULL default '0',
+  `guard_5` int(10) NOT NULL default '0',
+  `guard_6` int(10) NOT NULL default '0',
+  `guard_7` int(10) NOT NULL default '0',
+  `guard_8` int(10) NOT NULL default '0',
+  `space` int(11) NOT NULL default '0',
+  `var1` int(11) NOT NULL default '0',
+  `var2` int(11) NOT NULL default '0',
+  `hits` int(11) NOT NULL default '100',
+  KEY `countryID` (`countryID`,`building`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `buildings3`
+--
+
+CREATE TABLE IF NOT EXISTS `buildings3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `building` varchar(50) NOT NULL default '',
+  `guard` int(11) NOT NULL default '0',
+  `guard_2` int(11) NOT NULL default '0',
+  `guard_3` int(11) NOT NULL default '0',
+  `guard_4` int(10) NOT NULL default '0',
+  `guard_5` int(10) NOT NULL default '0',
+  `guard_6` int(10) NOT NULL default '0',
+  `guard_7` int(10) NOT NULL default '0',
+  `guard_8` int(10) NOT NULL default '0',
+  `space` int(11) NOT NULL default '0',
+  `var1` int(11) NOT NULL default '0',
+  `var2` int(11) NOT NULL default '0',
+  `hits` int(11) NOT NULL default '100',
+  KEY `countryID` (`countryID`,`building`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `buildings_save`
+--
+
+CREATE TABLE IF NOT EXISTS `buildings_save` (
+  `countryID` varchar(100) NOT NULL default '',
+  `building` varchar(50) NOT NULL default '',
+  `guard` int(11) NOT NULL default '0',
+  `guard_2` int(11) NOT NULL default '0',
+  `guard_3` int(11) NOT NULL default '0',
+  `guard_4` int(10) NOT NULL default '0',
+  `guard_5` int(10) NOT NULL default '0',
+  `guard_6` int(10) NOT NULL default '0',
+  `guard_7` int(10) NOT NULL default '0',
+  `guard_8` int(10) NOT NULL default '0',
+  `space` int(11) NOT NULL default '0',
+  `var1` int(11) NOT NULL default '0',
+  `var2` int(11) NOT NULL default '0',
+  `hits` int(11) NOT NULL default '100',
+  KEY `countryID` (`countryID`,`building`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `clans`
+--
+
+CREATE TABLE IF NOT EXISTS `clans` (
+  `id` int(11) NOT NULL default '0',
+  `name` varchar(50) NOT NULL default '',
+  `founder` varchar(50) NOT NULL default '',
+  `deviz` varchar(455) NOT NULL,
+  `info` text NOT NULL,
+  `c_killed` int(11) NOT NULL default '0',
+  KEY `id` (`id`),
+  KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `colonies`
+--
+
+CREATE TABLE IF NOT EXISTS `colonies` (
+  `id` int(11) NOT NULL auto_increment,
+  `countryID` varchar(50) NOT NULL default '',
+  `founded` int(11) NOT NULL default '0' COMMENT 'Время основания колонии',
+  `zahvat` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `name` varchar(30) NOT NULL default '',
+  `money` int(11) NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `oil` int(11) NOT NULL default '0',
+  `wariors` int(10) unsigned NOT NULL default '0',
+  `wariors_2` int(10) unsigned NOT NULL default '0',
+  `wariors_3` int(10) unsigned NOT NULL default '0',
+  `wariors_4` int(10) unsigned NOT NULL default '0',
+  `wariors_5` int(10) unsigned NOT NULL default '0',
+  `wariors_6` int(10) unsigned NOT NULL default '0',
+  `wariors_7` int(10) unsigned NOT NULL default '0',
+  `wariors_8` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `countryID` (`countryID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries`
+--
+
+CREATE TABLE IF NOT EXISTS `countries` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries3`
+--
+
+CREATE TABLE IF NOT EXISTS `countries3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries170915`
+--
+
+CREATE TABLE IF NOT EXISTS `countries170915` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries180915`
+--
+
+CREATE TABLE IF NOT EXISTS `countries180915` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries190915`
+--
+
+CREATE TABLE IF NOT EXISTS `countries190915` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries_backup`
+--
+
+CREATE TABLE IF NOT EXISTS `countries_backup` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries_save`
+--
+
+CREATE TABLE IF NOT EXISTS `countries_save` (
+  `countryID` varchar(100) NOT NULL default '',
+  `countryName` varchar(50) NOT NULL default '',
+  `reggedTime` bigint(20) NOT NULL default '0',
+  `nalog` int(11) NOT NULL default '0',
+  `napr` int(11) NOT NULL default '0',
+  `lastNal` bigint(20) NOT NULL default '0',
+  `lastWar` int(11) NOT NULL default '0' COMMENT 'Время начала последней войны',
+  `lastZah` int(11) NOT NULL default '0' COMMENT 'Время последнего захвата',
+  `land` int(11) NOT NULL default '0',
+  `mountains` int(11) NOT NULL default '0',
+  `forest` int(11) NOT NULL default '0',
+  `money` double NOT NULL default '0',
+  `arbor` int(11) NOT NULL default '0',
+  `stone` int(11) NOT NULL default '0',
+  `iron` int(11) NOT NULL default '0',
+  `grain` int(11) NOT NULL default '0',
+  `oil` int(10) NOT NULL default '0',
+  `workers` int(11) NOT NULL default '0',
+  `scientists` int(11) NOT NULL default '0',
+  `science` int(11) NOT NULL default '0',
+  `plotn_people` int(11) NOT NULL default '0',
+  `plotn_wariors` int(11) NOT NULL default '0',
+  `people_adding` int(11) NOT NULL default '0',
+  `forest_adding` int(11) NOT NULL default '0',
+  `grain_making` int(11) NOT NULL default '0',
+  `arbor_making` int(11) NOT NULL default '0',
+  `iron_making` int(11) NOT NULL default '0',
+  `stone_making` int(11) NOT NULL default '0',
+  `oil_making` int(11) NOT NULL default '0',
+  `mountains_max` int(10) NOT NULL default '0',
+  `forest_max` int(10) NOT NULL default '0',
+  `demontaj` int(11) NOT NULL default '10',
+  `artefakt` int(11) NOT NULL default '10',
+  `spy` int(11) NOT NULL default '0',
+  `sabotage` int(11) NOT NULL default '0',
+  `grabber` int(11) NOT NULL default '0',
+  `verb` int(11) NOT NULL default '0',
+  `spyTime` bigint(20) NOT NULL default '0',
+  `sabTime` bigint(20) NOT NULL default '0',
+  `grbTime` bigint(20) NOT NULL default '0',
+  `vrbTime` bigint(20) NOT NULL default '0',
+  `wariors_free` int(11) NOT NULL default '0',
+  `wariors_free_2` int(10) NOT NULL default '0',
+  `wariors_free_3` int(10) NOT NULL default '0',
+  `wariors_free_4` int(10) NOT NULL default '0',
+  `wariors_free_5` int(10) NOT NULL default '0',
+  `wariors_free_6` int(10) NOT NULL default '0',
+  `wariors_free_7` int(10) NOT NULL default '0',
+  `wariors_free_8` int(10) NOT NULL default '0',
+  `weapon_kind` tinyint(1) NOT NULL default '0',
+  `bronya_kind` tinyint(1) NOT NULL default '0',
+  `weapon_force` int(11) NOT NULL default '0',
+  `weapon_force_2` int(10) NOT NULL default '0',
+  `weapon_force_3` int(10) NOT NULL default '0',
+  `weapon_force_4` int(10) NOT NULL default '0',
+  `weapon_force_5` int(10) NOT NULL default '0',
+  `weapon_force_6` int(10) NOT NULL default '0',
+  `weapon_force_7` int(10) NOT NULL default '0',
+  `weapon_force_8` int(10) NOT NULL default '0',
+  `weapon_speed` int(11) NOT NULL default '0',
+  `weapon_speed_2` int(10) NOT NULL default '0',
+  `weapon_speed_3` int(10) NOT NULL default '0',
+  `weapon_speed_4` int(10) NOT NULL default '0',
+  `weapon_speed_5` int(10) NOT NULL default '0',
+  `weapon_speed_6` int(10) NOT NULL default '0',
+  `weapon_speed_7` int(10) NOT NULL default '0',
+  `weapon_speed_8` int(10) NOT NULL default '0',
+  `count` int(11) NOT NULL default '0',
+  `kind` tinyint(4) NOT NULL default '0',
+  `protection` int(11) NOT NULL default '1',
+  `atomic` tinyint(1) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `unites` tinyint(4) NOT NULL default '2',
+  `moratory` int(11) NOT NULL default '0' COMMENT 'Время, до которого куплен мораторий',
+  `lastClan` int(11) NOT NULL default '0',
+  UNIQUE KEY `countryName_2` (`countryName`),
+  KEY `countryID` (`countryID`),
+  KEY `money` (`money`),
+  KEY `weapon_force` (`weapon_force`,`weapon_speed`),
+  KEY `land` (`land`,`mountains`,`forest`),
+  KEY `countryName` (`countryName`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `general`
+--
+
+CREATE TABLE IF NOT EXISTS `general` (
+  `countryID` varchar(100) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `age` int(11) NOT NULL default '16',
+  `moral` int(11) NOT NULL default '0',
+  `expiriense` bigint(20) NOT NULL default '0',
+  `study` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `age` (`age`),
+  KEY `expiriense` (`expiriense`),
+  KEY `study` (`study`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `general3`
+--
+
+CREATE TABLE IF NOT EXISTS `general3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `age` int(11) NOT NULL default '16',
+  `moral` int(11) NOT NULL default '0',
+  `expiriense` bigint(20) NOT NULL default '0',
+  `study` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `age` (`age`),
+  KEY `expiriense` (`expiriense`),
+  KEY `study` (`study`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `general_save`
+--
+
+CREATE TABLE IF NOT EXISTS `general_save` (
+  `countryID` varchar(100) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  `age` int(11) NOT NULL default '16',
+  `moral` int(11) NOT NULL default '0',
+  `expiriense` bigint(20) NOT NULL default '0',
+  `study` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`),
+  KEY `age` (`age`),
+  KEY `expiriense` (`expiriense`),
+  KEY `study` (`study`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `goods`
+--
+
+CREATE TABLE IF NOT EXISTS `goods` (
+  `id` int(8) NOT NULL auto_increment,
+  `tname` varchar(150) default NULL,
+  `cost` varchar(8) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=29 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guestbook`
+--
+
+CREATE TABLE IF NOT EXISTS `guestbook` (
+  `id` double NOT NULL default '0',
+  `nick` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` varchar(50) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `tocountryID` varchar(100) NOT NULL default '',
+  `usid` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guestbook2`
+--
+
+CREATE TABLE IF NOT EXISTS `guestbook2` (
+  `id` double NOT NULL default '0',
+  `nick` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` varchar(50) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `tocountryID` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guestbook3`
+--
+
+CREATE TABLE IF NOT EXISTS `guestbook3` (
+  `id` double NOT NULL default '0',
+  `nick` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` varchar(50) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `tocountryID` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guestbook4`
+--
+
+CREATE TABLE IF NOT EXISTS `guestbook4` (
+  `id` double NOT NULL default '0',
+  `nick` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` varchar(50) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `tocountryID` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `guestbook_clans`
+--
+
+CREATE TABLE IF NOT EXISTS `guestbook_clans` (
+  `id` double NOT NULL default '0',
+  `nick` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` varchar(50) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `tocountryID` varchar(100) NOT NULL default '',
+  `clanid` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `clanid` (`clanid`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `logs`
+--
+
+CREATE TABLE IF NOT EXISTS `logs` (
+  `ID` int(11) NOT NULL auto_increment,
+  `countryName` varchar(100) character set cp1251 NOT NULL,
+  `targetName` varchar(100) character set cp1251 NOT NULL,
+  `log` text character set cp1251 NOT NULL,
+  `check` tinyint(4) NOT NULL default '0' COMMENT 'проверка',
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=286874 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `market`
+--
+
+CREATE TABLE IF NOT EXISTS `market` (
+  `countryID` varchar(100) NOT NULL default '',
+  `what` varchar(50) NOT NULL default '',
+  `count` int(11) NOT NULL default '0',
+  `price` double NOT NULL default '0',
+  `whole` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`countryID`,`what`),
+  KEY `price` (`price`),
+  KEY `what` (`what`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `market3`
+--
+
+CREATE TABLE IF NOT EXISTS `market3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `what` varchar(50) NOT NULL default '',
+  `count` int(11) NOT NULL default '0',
+  `price` double NOT NULL default '0',
+  `whole` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`countryID`,`what`),
+  KEY `price` (`price`),
+  KEY `what` (`what`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `market_save`
+--
+
+CREATE TABLE IF NOT EXISTS `market_save` (
+  `countryID` varchar(100) NOT NULL default '',
+  `what` varchar(50) NOT NULL default '',
+  `count` int(11) NOT NULL default '0',
+  `price` double NOT NULL default '0',
+  `whole` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`countryID`,`what`),
+  KEY `price` (`price`),
+  KEY `what` (`what`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `messages`
+--
+
+CREATE TABLE IF NOT EXISTS `messages` (
+  `countryID` varchar(100) NOT NULL default '',
+  `from` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `tm` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`from`),
+  KEY `tm` (`tm`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `messages3`
+--
+
+CREATE TABLE IF NOT EXISTS `messages3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `from` varchar(100) NOT NULL default '',
+  `message` text NOT NULL,
+  `tm` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`from`),
+  KEY `tm` (`tm`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `mgates`
+--
+
+CREATE TABLE IF NOT EXISTS `mgates` (
+  `id` int(11) NOT NULL auto_increment,
+  `mgates_sid` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `user_id` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `country_id` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `mgates_sid` (`mgates_sid`,`user_id`,`country_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=67606 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `mgates-off`
+--
+
+CREATE TABLE IF NOT EXISTS `mgates-off` (
+  `id` int(11) NOT NULL auto_increment,
+  `mgates_sid` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `user_id` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `country_id` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `moders`
+--
+
+CREATE TABLE IF NOT EXISTS `moders` (
+  `data` blob
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `moders_check`
+--
+
+CREATE TABLE IF NOT EXISTS `moders_check` (
+  `accusedId` varchar(200) NOT NULL COMMENT 'ид клоновода',
+  `accusedName` varchar(200) NOT NULL COMMENT 'страна клоновода',
+  `cloneId` varchar(200) NOT NULL COMMENT 'ид клона',
+  `cloneName` varchar(200) NOT NULL COMMENT 'страна клона',
+  `checkReason` varchar(200) NOT NULL default 'def' COMMENT 'причина проверки',
+  `moneyGet` int(10) NOT NULL default '0' COMMENT 'получено денег',
+  `stoneGet` int(10) NOT NULL default '0' COMMENT 'получено камня',
+  `ironGet` int(10) NOT NULL default '0' COMMENT 'получено железа',
+  `oilGet` int(10) NOT NULL default '0' COMMENT 'получено нефти',
+  `mountGet` int(10) NOT NULL default '0' COMMENT 'получено гор',
+  `expGet` int(20) NOT NULL default '0' COMMENT 'получено опыта',
+  `checkState` int(1) NOT NULL default '0' COMMENT 'статус проверки',
+  `captureState` varchar(1) NOT NULL default '-' COMMENT 'захвачено или нет',
+  `checkMod` varchar(200) NOT NULL COMMENT 'Модер который проверял или проверяет'
+) ENGINE=MyISAM DEFAULT CHARSET=cp1250;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `mrpay_data`
+--
+
+CREATE TABLE IF NOT EXISTS `mrpay_data` (
+  `id` int(8) NOT NULL auto_increment,
+  `transaction_id` int(8) default NULL,
+  `service_id` int(8) default NULL,
+  `sms_price` int(8) default NULL,
+  `profit` int(8) default NULL,
+  `uid` varchar(100) default NULL,
+  `reg` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=61 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `mr_reg`
+--
+
+CREATE TABLE IF NOT EXISTS `mr_reg` (
+  `id` int(8) NOT NULL auto_increment,
+  `user_name` varchar(100) default NULL,
+  `mr_uid` varchar(100) default NULL,
+  `user_pass` varchar(100) NOT NULL,
+  `user_id` varchar(100) character set cp1250 NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=5044 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `neighbours`
+--
+
+CREATE TABLE IF NOT EXISTS `neighbours` (
+  `countryID` varchar(40) NOT NULL default '',
+  `neighbourID` varchar(40) NOT NULL default '',
+  KEY `countryID_2` (`countryID`,`neighbourID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `neighbours3`
+--
+
+CREATE TABLE IF NOT EXISTS `neighbours3` (
+  `countryID` varchar(40) NOT NULL default '',
+  `neighbourID` varchar(40) NOT NULL default '',
+  KEY `countryID_2` (`countryID`,`neighbourID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `news`
+--
+
+CREATE TABLE IF NOT EXISTS `news` (
+  `mes` text NOT NULL,
+  `date` varchar(40) NOT NULL default '',
+  `tm` int(11) NOT NULL default '0',
+  `cat` varchar(50) NOT NULL default '',
+  `corr` varchar(50) NOT NULL default '',
+  `name` varchar(200) NOT NULL default '',
+  KEY `tm` (`tm`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `otkrytiya`
+--
+
+CREATE TABLE IF NOT EXISTS `otkrytiya` (
+  `countryID` varchar(100) NOT NULL default '',
+  `otkr` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`countryID`,`otkr`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `otkrytiya3`
+--
+
+CREATE TABLE IF NOT EXISTS `otkrytiya3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `otkr` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`countryID`,`otkr`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `o_reg`
+--
+
+CREATE TABLE IF NOT EXISTS `o_reg` (
+  `id` int(8) NOT NULL auto_increment,
+  `user_name` varchar(100) default NULL,
+  `o_uid` varchar(100) default NULL,
+  `user_pass` varchar(100) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=106060 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `parser`
+--
+
+CREATE TABLE IF NOT EXISTS `parser` (
+  `name` char(200) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `parser2`
+--
+
+CREATE TABLE IF NOT EXISTS `parser2` (
+  `name` char(200) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pay2_data`
+--
+
+CREATE TABLE IF NOT EXISTS `pay2_data` (
+  `id_shop` int(8) NOT NULL auto_increment,
+  `id` bigint(20) default NULL,
+  `v1` varchar(100) default NULL,
+  `v2` varchar(100) default '',
+  `v3` varchar(100) default '',
+  `sum` float default NULL,
+  `dat` varchar(20) default NULL,
+  PRIMARY KEY  (`id_shop`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=7149 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pumpit`
+--
+
+CREATE TABLE IF NOT EXISTS `pumpit` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(100) NOT NULL,
+  `login2` int(11) NOT NULL,
+  `p_sid` varchar(40) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `header` varchar(255) NOT NULL,
+  `footer` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=487 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pumpit-off-2`
+--
+
+CREATE TABLE IF NOT EXISTS `pumpit-off-2` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `login2` int(11) NOT NULL,
+  `p_sid` varchar(40) character set utf8 collate utf8_bin NOT NULL,
+  `username` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `password` varchar(100) character set utf8 collate utf8_bin NOT NULL,
+  `header` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+  `footer` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=11 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pumpit_data`
+--
+
+CREATE TABLE IF NOT EXISTS `pumpit_data` (
+  `login` varchar(30) character set utf8 NOT NULL,
+  `header` varchar(255) NOT NULL,
+  `footer` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pumpit_pay_log`
+--
+
+CREATE TABLE IF NOT EXISTS `pumpit_pay_log` (
+  `pid` int(11) NOT NULL,
+  `query` varchar(255) character set latin1 NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `purposes`
+--
+
+CREATE TABLE IF NOT EXISTS `purposes` (
+  `cname` varchar(100) NOT NULL default '',
+  `why` text NOT NULL,
+  `who` varchar(100) NOT NULL default '',
+  `tm` int(11) NOT NULL default '0',
+  KEY `cname` (`cname`,`tm`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `regs`
+--
+
+CREATE TABLE IF NOT EXISTS `regs` (
+  `ip` varchar(50) NOT NULL default '',
+  `soft` varchar(200) NOT NULL default '',
+  `time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`ip`,`soft`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `regs_comp`
+--
+
+CREATE TABLE IF NOT EXISTS `regs_comp` (
+  `ip` varchar(50) NOT NULL default '',
+  `time` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `saves`
+--
+
+CREATE TABLE IF NOT EXISTS `saves` (
+  `userID` int(11) NOT NULL default '0',
+  `countryID` varchar(50) NOT NULL default '',
+  `lastSave` int(11) NOT NULL default '0',
+  `lastDied` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`userID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `stop`
+--
+
+CREATE TABLE IF NOT EXISTS `stop` (
+  `pos` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `tips`
+--
+
+CREATE TABLE IF NOT EXISTS `tips` (
+  `id` int(11) NOT NULL auto_increment,
+  `tip` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=32 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `unite`
+--
+
+CREATE TABLE IF NOT EXISTS `unite` (
+  `countryID` varchar(100) NOT NULL default '',
+  `uniteeID` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`countryID`,`uniteeID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `unite3`
+--
+
+CREATE TABLE IF NOT EXISTS `unite3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `uniteeID` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`countryID`,`uniteeID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `uzers`
+--
+
+CREATE TABLE IF NOT EXISTS `uzers` (
+  `userID` int(11) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `username` varchar(50) NOT NULL default '',
+  `Email` varchar(100) NOT NULL default '',
+  `firstemail` varchar(100) NOT NULL default '',
+  `password` varchar(50) NOT NULL default '',
+  `onlineflag` bigint(20) NOT NULL default '0',
+  `noob` smallint(6) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `telnum` varchar(100) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `blocked` int(11) NOT NULL default '0' COMMENT 'Время, до которого действует блок',
+  `lastsessid` varchar(50) NOT NULL default '',
+  `clanID` int(11) NOT NULL default '0',
+  `maratory` int(11) NOT NULL default '25',
+  `voting` int(2) NOT NULL default '0',
+  `cnts` text NOT NULL,
+  `lastMail` int(11) NOT NULL default '0',
+  `lastMaratory` int(11) NOT NULL default '0',
+  `datereg` varchar(20) NOT NULL default '',
+  `about` varchar(200) NOT NULL default '',
+  `imya` varchar(50) NOT NULL default '',
+  `counts` int(11) NOT NULL default '0',
+  `credits` int(10) unsigned NOT NULL default '0' COMMENT 'Игровые деньги',
+  `spent` int(11) NOT NULL default '0',
+  `useit` tinyint(2) NOT NULL default '0',
+  `partner` varchar(100) character set cp1250 NOT NULL,
+  `forum_news` int(11) NOT NULL default '1',
+  `captcha_out` varchar(200) NOT NULL COMMENT 'капча, которая дана',
+  `captcha_in` varchar(200) NOT NULL COMMENT 'капча, введенная юзверем',
+  PRIMARY KEY  (`userID`),
+  UNIQUE KEY `username_2` (`username`),
+  UNIQUE KEY `username_3` (`username`),
+  KEY `countryID` (`countryID`),
+  KEY `onlineflag` (`onlineflag`),
+  KEY `username` (`username`,`password`),
+  KEY `clanID` (`clanID`),
+  KEY `userID` (`userID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `uzers_back`
+--
+
+CREATE TABLE IF NOT EXISTS `uzers_back` (
+  `userID` int(11) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `username` varchar(50) NOT NULL default '',
+  `Email` varchar(100) NOT NULL default '',
+  `firstemail` varchar(100) NOT NULL default '',
+  `password` varchar(50) NOT NULL default '',
+  `onlineflag` bigint(20) NOT NULL default '0',
+  `noob` smallint(6) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `telnum` varchar(100) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `blocked` int(11) NOT NULL default '0' COMMENT 'Время, до которого действует блок',
+  `lastsessid` varchar(50) NOT NULL default '',
+  `clanID` int(11) NOT NULL default '0',
+  `maratory` int(11) NOT NULL default '25',
+  `voting` int(2) NOT NULL default '0',
+  `cnts` text NOT NULL,
+  `lastMail` int(11) NOT NULL default '0',
+  `lastMaratory` int(11) NOT NULL default '0',
+  `datereg` varchar(20) NOT NULL default '',
+  `about` varchar(200) NOT NULL default '',
+  `imya` varchar(50) NOT NULL default '',
+  `counts` int(11) NOT NULL default '0',
+  `credits` int(10) unsigned NOT NULL default '0' COMMENT 'Игровые деньги',
+  `spent` int(11) NOT NULL default '0',
+  `useit` tinyint(2) NOT NULL default '0',
+  `partner` varchar(100) character set cp1250 NOT NULL,
+  `forum_news` int(11) NOT NULL default '1',
+  PRIMARY KEY  (`userID`),
+  UNIQUE KEY `username_2` (`username`),
+  UNIQUE KEY `username_3` (`username`),
+  KEY `countryID` (`countryID`),
+  KEY `onlineflag` (`onlineflag`),
+  KEY `username` (`username`,`password`),
+  KEY `clanID` (`clanID`),
+  KEY `userID` (`userID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `uzers_backup`
+--
+
+CREATE TABLE IF NOT EXISTS `uzers_backup` (
+  `userID` int(11) NOT NULL default '0',
+  `countryID` varchar(100) NOT NULL default '',
+  `username` varchar(50) NOT NULL default '',
+  `Email` varchar(100) NOT NULL default '',
+  `firstemail` varchar(100) NOT NULL default '',
+  `password` varchar(50) NOT NULL default '',
+  `onlineflag` bigint(20) NOT NULL default '0',
+  `noob` smallint(6) NOT NULL default '0',
+  `ip` varchar(100) NOT NULL default '',
+  `soft` varchar(100) NOT NULL default '',
+  `telnum` varchar(100) NOT NULL default '',
+  `inv` tinyint(1) NOT NULL default '0',
+  `blocked` int(11) NOT NULL default '0' COMMENT 'Время, до которого действует блок',
+  `lastsessid` varchar(50) NOT NULL default '',
+  `clanID` int(11) NOT NULL default '0',
+  `maratory` int(11) NOT NULL default '25',
+  `voting` int(2) NOT NULL default '0',
+  `cnts` text NOT NULL,
+  `lastMail` int(11) NOT NULL default '0',
+  `lastMaratory` int(11) NOT NULL default '0',
+  `datereg` varchar(20) NOT NULL default '',
+  `about` varchar(200) NOT NULL default '',
+  `imya` varchar(50) NOT NULL default '',
+  `counts` int(11) NOT NULL default '0',
+  `credits` int(10) unsigned NOT NULL default '0' COMMENT 'Игровые деньги',
+  `spent` int(11) NOT NULL default '0',
+  `useit` tinyint(2) NOT NULL default '0',
+  `partner` varchar(100) character set cp1250 NOT NULL,
+  `forum_news` int(11) NOT NULL default '1',
+  PRIMARY KEY  (`userID`),
+  UNIQUE KEY `username_2` (`username`),
+  UNIQUE KEY `username_3` (`username`),
+  KEY `countryID` (`countryID`),
+  KEY `onlineflag` (`onlineflag`),
+  KEY `username` (`username`,`password`),
+  KEY `clanID` (`clanID`),
+  KEY `userID` (`userID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `voting`
+--
+
+CREATE TABLE IF NOT EXISTS `voting` (
+  `param1` int(11) NOT NULL default '0',
+  `param2` int(11) NOT NULL default '0',
+  `param3` int(11) NOT NULL default '0',
+  `param4` int(11) NOT NULL default '0',
+  `param5` int(11) NOT NULL default '0',
+  `param6` int(11) NOT NULL default '0',
+  `param7` int(11) NOT NULL default '0',
+  `param8` int(11) NOT NULL default '0',
+  `param9` int(11) NOT NULL default '0',
+  `param10` int(11) NOT NULL default '0',
+  `param11` int(11) NOT NULL default '0',
+  `param12` int(11) NOT NULL default '0',
+  `param13` int(11) NOT NULL default '0',
+  `param14` int(11) NOT NULL default '0',
+  `param15` int(11) NOT NULL default '0',
+  `param16` int(11) NOT NULL default '0',
+  `param17` int(11) NOT NULL default '0',
+  `param18` int(11) NOT NULL default '0',
+  `param19` int(11) NOT NULL default '0',
+  `param20` int(11) NOT NULL default '0'
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `wars`
+--
+
+CREATE TABLE IF NOT EXISTS `wars` (
+  `countryID` varchar(100) NOT NULL default '',
+  `targetID` varchar(100) NOT NULL default '',
+  `wariors` int(11) NOT NULL default '0',
+  `wariors_2` int(10) NOT NULL default '0',
+  `wariors_3` int(10) NOT NULL default '0',
+  `wariors_4` int(10) NOT NULL default '0',
+  `wariors_5` int(10) NOT NULL default '0',
+  `wariors_6` int(10) NOT NULL default '0',
+  `wariors_7` int(10) NOT NULL default '0',
+  `wariors_8` int(10) NOT NULL default '0',
+  `time1` bigint(20) NOT NULL default '0',
+  `time2` bigint(20) NOT NULL default '0',
+  `time3` bigint(20) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`targetID`),
+  KEY `targetID` (`targetID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `wars3`
+--
+
+CREATE TABLE IF NOT EXISTS `wars3` (
+  `countryID` varchar(100) NOT NULL default '',
+  `targetID` varchar(100) NOT NULL default '',
+  `wariors` int(11) NOT NULL default '0',
+  `wariors_2` int(10) NOT NULL default '0',
+  `wariors_3` int(10) NOT NULL default '0',
+  `wariors_4` int(10) NOT NULL default '0',
+  `wariors_5` int(10) NOT NULL default '0',
+  `wariors_6` int(10) NOT NULL default '0',
+  `wariors_7` int(10) NOT NULL default '0',
+  `wariors_8` int(10) NOT NULL default '0',
+  `time1` bigint(20) NOT NULL default '0',
+  `time2` bigint(20) NOT NULL default '0',
+  `time3` bigint(20) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`targetID`),
+  KEY `targetID` (`targetID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `wars_col`
+--
+
+CREATE TABLE IF NOT EXISTS `wars_col` (
+  `cID` int(11) NOT NULL default '0' COMMENT 'ID колонии',
+  `countryID` varchar(100) NOT NULL default '' COMMENT 'ID страны-владельца колонии',
+  `targetID` varchar(100) NOT NULL default '' COMMENT 'ID атакующей страны',
+  `wariors` int(11) NOT NULL default '0',
+  `wariors_2` int(10) NOT NULL default '0',
+  `wariors_3` int(10) NOT NULL default '0',
+  `wariors_4` int(10) NOT NULL default '0',
+  `wariors_5` int(10) NOT NULL default '0',
+  `wariors_6` int(10) NOT NULL default '0',
+  `wariors_7` int(10) NOT NULL default '0',
+  `wariors_8` int(10) NOT NULL default '0',
+  `time1` bigint(20) NOT NULL default '0',
+  `time2` bigint(20) NOT NULL default '0',
+  `time3` bigint(20) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`targetID`),
+  KEY `targetID` (`targetID`),
+  KEY `cID` (`cID`,`countryID`),
+  KEY `cID_2` (`cID`,`targetID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `works`
+--
+
+CREATE TABLE IF NOT EXISTS `works` (
+  `countryID` varchar(100) NOT NULL default '',
+  `kind` varchar(50) NOT NULL default '',
+  `what` varchar(50) NOT NULL default '',
+  `peopleatwork` bigint(20) NOT NULL default '0',
+  `started` bigint(20) NOT NULL default '0',
+  `finished` bigint(20) NOT NULL default '0',
+  `var1` int(11) NOT NULL default '0',
+  `var2` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`kind`,`what`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `works_save`
+--
+
+CREATE TABLE IF NOT EXISTS `works_save` (
+  `countryID` varchar(100) NOT NULL default '',
+  `kind` varchar(50) NOT NULL default '',
+  `what` varchar(50) NOT NULL default '',
+  `peopleatwork` bigint(20) NOT NULL default '0',
+  `started` bigint(20) NOT NULL default '0',
+  `finished` bigint(20) NOT NULL default '0',
+  `var1` int(11) NOT NULL default '0',
+  `var2` int(11) NOT NULL default '0',
+  KEY `countryID` (`countryID`,`kind`,`what`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `znc`
+--
+
+CREATE TABLE IF NOT EXISTS `znc` (
+  `id` int(11) NOT NULL,
+  `url` varchar(100) NOT NULL COMMENT 'url по которому лежит значек для асамблеи'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

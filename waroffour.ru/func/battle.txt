@@ -1,0 +1,141 @@
+function battle($att_general,$att_params,$att_wariors,$def_general,$def_params,$def_wariors,$home=FALSE,$berserk=FALSE,$fk=1){
+require (_ROOT.'/units.php'); //Инфа о юнитах
+//echo ($_SERVER['DOCUMENT_ROOT'].'/new2/units.php');
+
+//коэффициент силы:
+ $kk=1*$fk;
+
+ if ($def_params['bronya_kind']==$att_params['weapon_kind'] && $def_params['weapon_kind']!=$att_params['bronya_kind']){
+    $kk=$kk*0.6;
+ }
+
+ if ($def_params['weapon_kind']==$att_params['bronya_kind'] && $def_params['bronya_kind']!=$att_params['weapon_kind']){
+    $kk=$kk*1.4;
+ }
+//$att_general есть всегда, иначе бы не мог напасть. Проверка, есть ли генерал у защиты:
+if (count($def_general)>0){
+//В игру вступает мораль генералов:
+$kk=$kk*sqrt($att_general['moral']/$def_general['moral']);
+//теперь опыт и навык:
+$kk=$kk*sqrt(($att_general['expiriense']+200*$att_general['study'])/($def_general['expiriense']+200*$def_general['study']));
+if ($kk>10)$kk=10;
+if ($kk<0.1)$kk=0.1;
+}else{
+$kk=$kk*rand(200,300)/100;
+}
+
+//фактор случайности:
+$kk=$kk*rand(90,110)/100;
+
+$bers = rand(0,1);
+//Если есть открытие берсерка, оно сработало и битва идет "дома"
+
+if ($berserk==TRUE && $bers==0 && $home==TRUE){
+$kk=$kk*1.5;
+//Атакуем с берсерком!
+printrus("Благодаря открытию \"берсерк\", ваши воины атаковали противника с полуторной яростью!<br/>\n");
+}
+
+if ($kk>10)$kk=10;
+if ($kk<0.1)$kk=0.1;
+
+//Обсчет повреждений юнитов
+$att_damage=array(0,0,0,0,0,0,0);
+for ($i=0;$i<=6;$i++){
+if ($att_wariors[$i]>0){  //В атаке есть такой тип юнитов
+   for ($j=0;$j<=6;$j++){
+       if ($def_wariors[$j]>0){  //У защиты есть такой тип юнитов
+               if($j==6)$gg=$kk/2; else $gg=$kk;
+          $dmg = $gg*$att_wariors[$i]*($units[$i]["dmg"]*((1+$att_params["weapon_speed"][$i])*2+$att_params["weapon_force"][$i]*3))*$units[$i]["koef"][$j];
+          //$dmg = $kk*($units[$i]["dmg"]*(1+$att_params["weapon_speed"][$i]+$att_params["weapon_force"][$i]))*$units[$i]["koef"][$j];
+          //$dmg = $kk*sqrt($att_wariors[$i])*($units[$i]["dmg"]*(1+$att_params["weapon_speed"][$i]+$att_params["weapon_force"][$i]))*$units[$i]["koef"][$j];
+          $att_damage[$j]=$att_damage[$j]+$dmg;
+          }
+       }
+   }
+}
+//echo $att_damage[6].'\n';
+
+//Обсчет части войск, убиваемых "одним ударом"
+$att_part = array(-1,-1,-1,-1,-1,-1,-1);
+//$att_part_min=-1;
+//$att_part_num=-1;
+for ($i=0;$i<=6;$i++){
+if ($def_wariors[$i]>0){
+   $att_part[$i]=$att_damage[$i]/($units[$i]['life']*$def_wariors[$i]);
+   }
+}
+//echo $att_part[6].'\n';
+$att_m = array();     //В массиве части войск, убиваемых "одним" ударом
+$att_left = array();  //В массиве оставшаяся часть войск
+for ($i=0;$i<count($att_part);$i++) if($att_part[$i]!=-1){
+    array_push($att_m,$att_part[$i]);
+    array_push($att_left,1);
+    }
+rsort($att_m);
+//echo $att_m[0].':'.$att_m[1].'\n';
+
+//Аналогично для другой стороны
+//Обсчет повреждений юнитов
+$def_damage=array(0,0,0,0,0,0,0);
+for ($i=0;$i<=6;$i++){
+if ($def_wariors[$i]>0){  //В атаке есть такой тип юнитов
+   for ($j=0;$j<=6;$j++){
+       if ($att_wariors[$j]>0){  //У защиты есть такой тип юнитов
+                if($i==6)$gg=$kk/2; else $gg=$kk;
+          $dmg = (1/$gg)*$def_wariors[$i]*($units[$i]["dmg"]*((1+$def_params["weapon_speed"][$i])*2+$def_params["weapon_force"][$i]*3))*$units[$i]["koef"][$j];
+          //$dmg = (1/$kk)*($units[$i]["dmg"]*(1+$def_params["weapon_speed"][$i]+$def_params["weapon_force"][$i]))*$units[$i]["koef"][$j];
+          //$dmg = (1/$kk)*sqrt($def_wariors[$i])*($units[$i]["dmg"]*(1+$def_params["weapon_speed"][$i]+$def_params["weapon_force"][$i]))*$units[$i]["koef"][$j];
+          $def_damage[$j]=$def_damage[$j]+$dmg;
+          //echo $dmg.':';
+          }
+       }
+   }
+}
+//Обсчет части войск, убиваемых "одним ударом"
+$def_part = array(-1,-1,-1,-1,-1,-1,-1);
+for ($i=0;$i<=6;$i++){
+if ($att_wariors[$i]>0){
+   $def_part[$i]=$def_damage[$i]/($units[$i]['life']*$att_wariors[$i]);
+   //echo $def_part[$i].':';
+   }
+}
+$def_m = array();      //В массиве части войск, убиваемых "одним" ударом
+$def_left = array();   //В массиве оставшаяся часть войск
+for ($i=0;$i<count($def_part);$i++) if($def_part[$i]!=-1){
+    array_push($def_m,$def_part[$i]);
+    array_push($def_left,1);
+    }
+rsort($def_m);
+//echo '\n'.$def_m[0].':'.$def_m[1].'\n';
+
+//Кто победил?
+$k=count($att_m);
+$att_udar=0;
+for ($i=0;$i<count($att_m);$i++){
+//Сколько "удара" потребуется, чтобы убить самую слабую часть войск?
+$plus_udar=($att_left[$i]/$att_m[$i])*$k;
+for ($j=($i+1);$j<count($att_left);$j++) $att_left[$j]=$att_left[$j]-$att_m[$j]*($att_left[$i]/$att_m[$i]);
+$att_udar=$att_udar+$plus_udar;
+$k--;
+}
+//То же, защита:
+$k=count($def_m);
+$def_udar=0;
+for ($i=0;$i<count($def_m);$i++){
+//Сколько "удара" потребуется, чтобы убить самую слабую часть войск?
+$plus_udar=($def_left[$i]/$def_m[$i])*$k;
+for ($j=($i+1);$j<count($def_left);$j++) $def_left[$j]=$def_left[$j]-$def_m[$j]*($def_left[$i]/$def_m[$i]);
+$def_udar=$def_udar+$plus_udar;
+$k--;
+}
+
+if ($att_udar>$def_udar)$win="def";
+else $win="att";
+//echo ($att_udar.'-'.$def_udar);
+$result[0]=$win;
+$result[1]=sqrt($att_udar);
+$result[2]=sqrt($def_udar);
+return $result;
+
+}

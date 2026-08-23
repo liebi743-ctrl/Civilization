@@ -1,0 +1,24 @@
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+/var/www/imperia/data/www/imperia.mobi/mpan.php
+HTTP_REFERER = http://imperia.mobi/mpan.php?819000063&go=kill&cid=572c6c4f2615ab48f632649899d5318659
+HTTP_COOKIE = PHPSESSID=0d4059ddba401c1c60e81b1988cecba5; civilla=true; clvps=Li4uNy4uLg%3D%3D; clvus=RWthdGVyaW5hMiA%3D; cl=xOXt%2FCDoIM3u9%2Fwu1eDN%2BMA%3D
+SCRIPT_FILENAME = /var/www/imperia/data/www/imperia.mobi/mpan.php
+QUERY_STRING = 622765612&go=verkill&cid=572c6c4f2615ab48f632649899d5318659
+REQUEST_TIME = 1367641405
+HTTP_REFERER = http://imperia.mobi/mpan.php?819000063&go=kill&cid=572c6c4f2615ab48f632649899d5318659
+
+
+HTTP_REFERER = http://imperia.mobi/mpan.php?811071886&go=kill&cid=02a91e305ff3ab7ccccadb82cbc473a518
+HTTP_COOKIE = PHPSESSID=87537985628586baf2afa8aa9db255bb; cl=M8DKzs0%3D; clvus=UGFzdHly; clvps=R3I1WHNCZTFjWVY3; civilla=true
+SCRIPT_FILENAME = /var/www/imperia/data/www/imperia.mobi/mpan.php
+QUERY_STRING = 597506746&go=verkill&cid=02a91e305ff3ab7ccccadb82cbc473a518
+REQUEST_TIME = 1367650116
+HTTP_REFERER = http://imperia.mobi/mpan.php?811071886&go=kill&cid=02a91e305ff3ab7ccccadb82cbc473a518
+
+
